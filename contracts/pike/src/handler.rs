@@ -32,12 +32,12 @@ cfg_if! {
     }
 }
 
-use protos::payload::{CreateAgentAction, CreateOrganizationAction,
-                      PikePayload,
-                      PikePayload_Action as Action, UpdateAgentAction,
-                      UpdateOrganizationAction};
-use protos::state::{Agent, AgentList, Organization, OrganizationList};
-use addresser::{resource_to_byte, Resource};
+use protos::pike_payload::{CreateAgentAction, CreateOrganizationAction,
+                           PikePayload,
+                           PikePayload_Action as Action, UpdateAgentAction,
+                           UpdateOrganizationAction};
+use protos::pike_state::{Agent, AgentList, Organization, OrganizationList};
+use grid_sdk::pike::{resource_to_byte, Resource};
 
 pub struct PikeTransactionHandler {
     family_name: String,

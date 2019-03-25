@@ -23,12 +23,12 @@ fn main() {
     fs::create_dir_all("src/protos").unwrap();
     protoc_rust::run(protoc_rust::Args {
         out_dir: "src/protos",
-        input: &["../protos/payload.proto", "../protos/state.proto"],
-        includes: &["../protos"],
+        input: &["../../sdk/protos/pike_payload.proto", "../../sdk/protos/pike_state.proto"],
+        includes: &["../../sdk/protos"],
         customize: Customize::default(),
     }).expect("protoc");
 
     let mut file = File::create("src/protos/mod.rs").unwrap();
-    file.write_all(b"pub mod payload;\n").unwrap();
-    file.write_all(b"pub mod state;\n").unwrap();
+    file.write_all(b"pub mod pike_payload;\n").unwrap();
+    file.write_all(b"pub mod pike_state;\n").unwrap();
 }

@@ -16,7 +16,7 @@
 extern crate cfg_if;
 extern crate protobuf;
 extern crate crypto;
-extern crate addresser;
+extern crate grid_sdk;
 
 cfg_if! {
     if #[cfg(target_arch = "wasm32")] {
