@@ -28,6 +28,7 @@ license = "Apache-2.0"
 
 
 [dependencies]
+actix-web = { package = "actix-web", version = "3", optional = true }
 byteorder = "1"
 cfg-if = "0.1"
 diesel = { version = "1.0", features = ["r2d2", "serde_json"], optional = true }
@@ -79,6 +80,7 @@ location = ["pike", "schema"]
 pike = []
 product = ["pike", "schema"]
 rest-api = []
+rest-api-actix-web-3 = ["rest-api", "actix-web"]
 schema = ["pike"]
 track-and-trace = []
 
