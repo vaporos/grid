@@ -69,6 +69,7 @@ experimental = [
     "stable",
     # The following features are experimental:
     "database",
+    "rest-api",
     "track-and-trace",
     "workflow"
 ]
@@ -77,6 +78,7 @@ database = ["grid_db", "postgres", "sqlite" ]
 location = ["pike", "schema"]
 pike = []
 product = ["pike", "schema"]
+rest-api = []
 schema = ["pike"]
 track-and-trace = []
 
