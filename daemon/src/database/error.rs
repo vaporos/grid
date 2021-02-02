@@ -18,6 +18,8 @@
 use std::error::Error;
 use std::fmt;
 
+use grid_sdk::rest_api::actix_web_3::error::RestApiResponseError;
+
 #[derive(Debug)]
 pub struct ConnectionError {
     pub context: String,
@@ -86,5 +88,11 @@ impl From<diesel_migrations::RunMigrationsError> for DatabaseError {
 impl From<diesel::result::Error> for DatabaseError {
     fn from(err: diesel::result::Error) -> Self {
         DatabaseError::QueryError(Box::new(err))
+    }
+}
+
+impl From<DatabaseError> for RestApiResponseError {
+    fn from(err: DatabaseError) -> RestApiResponseError {
+        RestApiResponseError::DatabaseError(format!("Database Error occured: {}", err.to_string()))
     }
 }

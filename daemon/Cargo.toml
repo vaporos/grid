@@ -63,9 +63,8 @@ features = [ "events" ]
 default = [
     "database",
     "event",
-    "rest-api",
+    "rest-api-actix-web-3",
     "sawtooth-support",
-    "submitter",
 ]
 
 stable = [
@@ -87,15 +86,13 @@ experimental = [
 ]
 
 event = ["database"]
-database = []
 location = ["pike", "schema"]
 pike = []
 product = ["pike", "schema"]
-rest-api = ["database", "submitter"]
+rest-api-actix-web-3 = ["splinter/rest-api-active-web-3"]
 sawtooth-support = ["database", "event", "rest-api"]
 schema = ["pike"]
 splinter-support = ["database", "event", "rest-api", "reqwest", "scabbard", "sabre-sdk", "splinter", "transact/contract-archive"]
-submitter = ["rest-api"]
 test-postgres = []
 track-and-trace = []
 
