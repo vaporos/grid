@@ -12,14 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::rest_api::{
-    error::RestApiResponseError, routes::DbExecutor, AcceptServiceIdParam, AppState, QueryServiceId,
-};
-
 use actix::{Handler, Message, SyncContext};
 use actix_web::{web, HttpResponse};
-use grid_sdk::schemas::store::{PropertyDefinition, Schema};
 use serde::{Deserialize, Serialize};
+
+use crate::rest_api::actix_web_3::{
+    error::RestApiResponseError, routes::DbExecutor, AcceptServiceIdParam, AppState, QueryServiceId,
+};
+use crate::schemas::store::{PropertyDefinition, Schema};
+
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct GridSchemaSlice {

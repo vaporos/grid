@@ -28,7 +28,9 @@ license = "Apache-2.0"
 
 
 [dependencies]
-actix-web = { package = "actix-web", version = "3", optional = true }
+actix = { version = "0.9", optional = true }
+actix-rt = { version = "1", optional = true }
+actix-web = { version = "3", optional = true }
 byteorder = "1"
 cfg-if = "0.1"
 diesel = { version = "1.0", features = ["r2d2", "serde_json"], optional = true }
@@ -71,6 +73,8 @@ experimental = [
     # The following features are experimental:
     "database",
     "rest-api",
+    "rest-api-actix-web-3",
+    "submitter",
     "track-and-trace",
     "workflow"
 ]
@@ -80,8 +84,9 @@ location = ["pike", "schema"]
 pike = []
 product = ["pike", "schema"]
 rest-api = []
-rest-api-actix-web-3 = ["rest-api", "actix-web"]
+rest-api-actix-web-3 = ["actix", "actix-rt", "actix-web", "rest-api", "submitter"]
 schema = ["pike"]
+submitter = []
 track-and-trace = []
 
 grid_db = ["sawtooth-compat"]

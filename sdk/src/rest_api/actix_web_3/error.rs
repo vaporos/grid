@@ -12,7 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::database::DatabaseError;
+use std::error::Error;
+use std::fmt;
 
 use actix::MailboxError;
 use actix_web::error::{PayloadError, UrlGenerationError};
@@ -21,15 +22,13 @@ use actix_web::{
     HttpResponse,
 };
 use futures::future::{Future, TryFutureExt};
-use grid_sdk::{
+
+use crate::{
     agents::store::AgentStoreError, commits::store::CommitStoreError,
     locations::store::LocationStoreError, organizations::store::OrganizationStoreError,
     products::store::ProductStoreError, schemas::store::SchemaStoreError,
     track_and_trace::store::TrackAndTraceStoreError,
 };
-use std::error::Error;
-
-use std::fmt;
 
 #[derive(Debug)]
 pub enum RestApiServerError {
@@ -176,12 +175,6 @@ impl From<UrlGenerationError> for RestApiResponseError {
             "Failed generate response URL. {}",
             err.to_string()
         ))
-    }
-}
-
-impl From<DatabaseError> for RestApiResponseError {
-    fn from(err: DatabaseError) -> RestApiResponseError {
-        RestApiResponseError::DatabaseError(format!("Database Error occured: {}", err.to_string()))
     }
 }
 

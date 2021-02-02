@@ -14,15 +14,16 @@
 
 use std::{convert::TryFrom, str::FromStr};
 
-use crate::rest_api::{
+use actix::{Handler, Message, SyncContext};
+use actix_web::{web, HttpResponse};
+use serde::{Deserialize, Serialize};
+use serde_json::Value as JsonValue;
+
+use crate::organizations::store::Organization;
+use crate::rest_api::actix_web_3::{
     error::RestApiResponseError, routes::DbExecutor, AcceptServiceIdParam, AppState, QueryServiceId,
 };
 
-use actix::{Handler, Message, SyncContext};
-use actix_web::{web, HttpResponse};
-use grid_sdk::organizations::store::Organization;
-use serde::{Deserialize, Serialize};
-use serde_json::Value as JsonValue;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct OrganizationSlice {

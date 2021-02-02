@@ -12,29 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+pub mod database;
 pub mod error;
 mod routes;
+pub mod submitter;
 
 use std::sync::mpsc;
 use std::thread;
 
-use crate::config::Endpoint;
-pub use crate::rest_api::error::RestApiServerError;
-
-#[cfg(feature = "pike")]
-use crate::rest_api::routes::{fetch_agent, fetch_organization, list_agents, list_organizations};
-#[cfg(feature = "schema")]
-use crate::rest_api::routes::{fetch_grid_schema, list_grid_schemas};
-#[cfg(feature = "location")]
-use crate::rest_api::routes::{fetch_location, list_locations};
-#[cfg(feature = "product")]
-use crate::rest_api::routes::{fetch_product, list_products};
-#[cfg(feature = "track-and-trace")]
-use crate::rest_api::routes::{fetch_record, fetch_record_property, list_records};
-
-use crate::rest_api::routes::{get_batch_statuses, submit_batches};
-
-use crate::submitter::BatchSubmitter;
 use actix::{Addr, SyncArbiter};
 use actix_web::{
     dev,
@@ -45,7 +30,23 @@ use futures::executor::block_on;
 use futures::future;
 use serde::{Deserialize, Serialize};
 
-pub use self::routes::DbExecutor;
+use crate::config::Endpoint;
+pub use crate::rest_api::actix_web_3::error::RestApiServerError;
+#[cfg(feature = "pike")]
+use crate::rest_api::actix_web_3::routes::{
+    fetch_agent, fetch_organization, list_agents, list_organizations,
+};
+#[cfg(feature = "schema")]
+use crate::rest_api::actix_web_3::routes::{fetch_grid_schema, list_grid_schemas};
+#[cfg(feature = "location")]
+use crate::rest_api::actix_web_3::routes::{fetch_location, list_locations};
+#[cfg(feature = "product")]
+use crate::rest_api::actix_web_3::routes::{fetch_product, list_products};
+#[cfg(feature = "track-and-trace")]
+use crate::rest_api::actix_web_3::routes::{fetch_record, fetch_record_property, list_records};
+use crate::rest_api::actix_web_3::routes::{get_batch_statuses, submit_batches};
+pub use routes::DbExecutor;
+use submitter::BatchSubmitter;
 
 const SYNC_ARBITER_THREAD_COUNT: usize = 2;
 

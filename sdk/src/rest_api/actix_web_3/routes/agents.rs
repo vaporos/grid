@@ -14,15 +14,15 @@
 
 use std::{convert::TryFrom, str::FromStr};
 
-use crate::rest_api::{
-    error::RestApiResponseError, routes::DbExecutor, AcceptServiceIdParam, AppState, QueryServiceId,
-};
-
 use actix::{Handler, Message, SyncContext};
 use actix_web::{web, HttpResponse};
-use grid_sdk::agents::store::Agent;
 use serde::{Deserialize, Serialize};
 use serde_json::Value as JsonValue;
+
+use crate::agents::store::Agent;
+use crate::rest_api::actix_web_3::{
+    error::RestApiResponseError, routes::DbExecutor, AcceptServiceIdParam, AppState, QueryServiceId,
+};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AgentSlice {

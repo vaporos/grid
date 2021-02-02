@@ -15,14 +15,15 @@
  * -----------------------------------------------------------------------------
  */
 
-use crate::rest_api::{
+use actix::{Handler, Message, SyncContext};
+use actix_web::{web, HttpResponse};
+use serde::{Deserialize, Serialize};
+
+use crate::products::store::{LatLongValue, Product, PropertyValue};
+use crate::rest_api::actix_web_3::{
     error::RestApiResponseError, routes::DbExecutor, AcceptServiceIdParam, AppState, QueryServiceId,
 };
 
-use actix::{Handler, Message, SyncContext};
-use actix_web::{web, HttpResponse};
-use grid_sdk::products::store::{LatLongValue, Product, PropertyValue};
-use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct ProductSlice {

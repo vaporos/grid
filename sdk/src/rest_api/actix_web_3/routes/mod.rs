@@ -12,17 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use std::sync::Arc;
-
-use grid_sdk::{
-    agents::{AgentStore, DieselAgentStore},
-    locations::{DieselLocationStore, LocationStore},
-    organizations::{DieselOrganizationStore, OrganizationStore},
-    products::{DieselProductStore, ProductStore},
-    schemas::{DieselSchemaStore, SchemaStore},
-    track_and_trace::{DieselTrackAndTraceStore, TrackAndTraceStore},
-};
-
 #[cfg(feature = "pike")]
 mod agents;
 mod batches;
@@ -36,6 +25,20 @@ mod products;
 mod records;
 #[cfg(feature = "schema")]
 mod schemas;
+
+use std::sync::Arc;
+
+use actix::{Actor, SyncContext};
+
+use crate::{
+    agents::{AgentStore, DieselAgentStore},
+    locations::{DieselLocationStore, LocationStore},
+    organizations::{DieselOrganizationStore, OrganizationStore},
+    products::{DieselProductStore, ProductStore},
+    schemas::{DieselSchemaStore, SchemaStore},
+    track_and_trace::{DieselTrackAndTraceStore, TrackAndTraceStore},
+};
+use crate::rest_api::actix_web_3::database::ConnectionPool;
 
 #[cfg(feature = "pike")]
 pub use agents::*;
@@ -51,9 +54,6 @@ pub use records::*;
 #[cfg(feature = "schema")]
 pub use schemas::*;
 
-use crate::database::ConnectionPool;
-
-use actix::{Actor, SyncContext};
 
 #[derive(Clone)]
 pub struct DbExecutor {

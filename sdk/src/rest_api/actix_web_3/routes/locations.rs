@@ -12,14 +12,14 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-use crate::rest_api::{
-    error::RestApiResponseError, routes::DbExecutor, AcceptServiceIdParam, AppState, QueryServiceId,
-};
-
 use actix::{Handler, Message, SyncContext};
 use actix_web::{web, HttpResponse};
-use grid_sdk::locations::store::{LatLongValue, Location, LocationAttribute};
 use serde::{Deserialize, Serialize};
+
+use crate::locations::store::{LatLongValue, Location, LocationAttribute};
+use crate::rest_api::actix_web_3::{
+    error::RestApiResponseError, routes::DbExecutor, AcceptServiceIdParam, AppState, QueryServiceId,
+};
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct LocationSlice {

@@ -18,9 +18,11 @@ use actix_web::{web, HttpRequest, HttpResponse};
 use sawtooth_sdk::messages::batch::BatchList;
 use serde::Deserialize;
 
-use crate::rest_api::error::RestApiResponseError;
-use crate::rest_api::{AcceptServiceIdParam, AppState, QueryServiceId};
-use crate::submitter::{BatchStatusResponse, BatchStatuses, SubmitBatches, DEFAULT_TIME_OUT};
+use crate::rest_api::actix_web_3::{
+    error::RestApiResponseError,
+    submitter::{BatchStatusResponse, BatchStatuses, SubmitBatches, DEFAULT_TIME_OUT},
+    AcceptServiceIdParam, AppState, QueryServiceId,
+};
 
 pub async fn submit_batches(
     req: HttpRequest,
