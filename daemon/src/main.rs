@@ -47,9 +47,8 @@ mod sawtooth;
 mod splinter;
 
 use flexi_logger::{LogSpecBuilder, Logger};
-use grid_sdk::rest_api::actix_web_3::Backend;
 
-use crate::config::GridConfigBuilder;
+use crate::config::{Backend, GridConfigBuilder};
 use crate::error::DaemonError;
 #[cfg(feature = "sawtooth-support")]
 use crate::sawtooth::run_sawtooth;

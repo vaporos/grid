@@ -42,7 +42,7 @@ diesel = { version = "1.0.0", features = ["r2d2", "serde_json"] }
 diesel_migrations = "1.4"
 flexi_logger = "0.14"
 futures = "0.3"
-grid-sdk = { path = "../sdk", features = ["postgres", "sqlite", "experimental"] }
+grid-sdk = { path = "../sdk", features = ["postgres", "sqlite"] }
 log = "0.4"
 protobuf = "2.19"
 reqwest = { version = "0.10.1", optional = true, features = ["json", "blocking"] }
@@ -90,17 +90,17 @@ experimental = [
 
 event = ["database"]
 database = []
-location = ["pike", "schema"]
-pike = ["serde_json"]
-product = ["pike", "schema"]
+location = ["pike", "schema", "grid-sdk/location"]
+pike = ["serde_json", "grid-sdk/pike"]
+product = ["pike", "schema", "grid-sdk/product"]
 purchase-order = ["pike"]
-rest-api = ["database"]
+rest-api = ["database", "grid-sdk/rest-api-actix-web-3"]
 sawtooth-support = ["database", "event", "rest-api"]
-schema = ["pike"]
+schema = ["pike", "grid-sdk/schema"]
 splinter-support = ["database", "event", "rest-api", "reqwest", "scabbard", "sabre-sdk", "splinter", "transact/contract-archive", "serde_json", "serde"]
 test-postgres = []
-track-and-trace = []
-integration = []
+track-and-trace = ["grid-sdk/track-and-trace"]
+integration = ["grid-sdk/batch-submitter"]
 
 
 [package.metadata.deb]

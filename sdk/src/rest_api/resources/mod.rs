@@ -30,7 +30,7 @@ pub mod purchase_order;
 pub mod roles;
 #[cfg(feature = "schema")]
 pub mod schemas;
-#[cfg(feature = "batch-store")]
+#[cfg(feature = "batch-submitter")]
 pub mod submit;
 #[cfg(feature = "track-and-trace")]
 pub mod track_and_trace;

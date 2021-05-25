@@ -12,6 +12,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+#[cfg(any(
+    feature = "batch-store",
+    feature = "location",
+    feature = "pike",
+    feature = "product",
+    feature = "purchase-order",
+    feature = "batch-submitter",
+    feature = "track-and-trace"
+))]
 use std::sync::Arc;
 
 use diesel::r2d2::{ConnectionManager, Pool};
@@ -52,6 +61,7 @@ pub struct StoreState {
 
 #[allow(clippy::redundant_clone)]
 impl StoreState {
+    #[allow(unused_variables)] // needed when connection_pool isn't used because all features disabled
     pub fn with_pg_pool(
         connection_pool: Pool<ConnectionManager<diesel::pg::PgConnection>>,
     ) -> Self {
@@ -88,6 +98,7 @@ impl StoreState {
         }
     }
 
+    #[allow(unused_variables)] // needed when connection_pool isn't used because all features disabled
     pub fn with_sqlite_pool(
         connection_pool: Pool<ConnectionManager<diesel::sqlite::SqliteConnection>>,
     ) -> Self {

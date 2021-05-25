@@ -24,8 +24,10 @@ use actix_web::web;
 use actix_web::{dev, App, HttpServer, Result};
 use futures::executor::block_on;
 #[cfg(feature = "integration")]
-use grid_sdk::rest_api::actix_web_3::KeyState;
-use grid_sdk::rest_api::actix_web_3::{routes, BatchSubmitterState, Endpoint, StoreState};
+use grid_sdk::rest_api::actix_web_3::{routes, BatchSubmitterState, KeyState};
+use grid_sdk::rest_api::actix_web_3::StoreState;
+
+use crate::config::Endpoint;
 
 pub struct RestApiShutdownHandle {
     server: dev::Server,
@@ -40,6 +42,7 @@ impl RestApiShutdownHandle {
 pub fn run(
     bind_url: &str,
     store_state: StoreState,
+    #[cfg(feature = "integration")]
     batch_submitter_state: BatchSubmitterState,
     #[cfg(feature = "integration")] key_state: KeyState,
     endpoint: Endpoint,
@@ -62,11 +65,20 @@ pub fn run(
                 #[allow(clippy::let_and_return)]
                 #[allow(unused_mut)]
                 let mut app = App::new()
-                    .data(store_state.clone())
-                    .data(batch_submitter_state.clone())
-                    .app_data(endpoint.clone())
-                    .service(routes::submit_batches)
-                    .service(routes::get_batch_statuses);
+                    .data(store_state.clone());
+
+                #[cfg(feature = "integration")]
+                {
+                    app = app.data(batch_submitter_state.clone());
+                }
+
+                app = app.app_data(endpoint.clone());
+
+                #[cfg(feature = "integration")]
+                {
+                    app.service(routes::submit_batches)
+                        .service(routes::get_batch_statuses);
+                }
 
                 #[cfg(feature = "pike")]
                 {

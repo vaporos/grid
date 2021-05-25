@@ -16,7 +16,9 @@ use actix_web::{App, HttpServer};
 
 use crate::error::InternalError;
 
-use super::{submit, KeyState, StoreState};
+#[cfg(feature = "batch-submitter")]
+use super::submit;
+use super::{KeyState, StoreState};
 
 pub async fn run(
     bind: &str,
@@ -24,10 +26,19 @@ pub async fn run(
     key_state: KeyState,
 ) -> Result<(), InternalError> {
     HttpServer::new(move || {
-        App::new()
-            .data(store_state.clone())
-            .data(key_state.clone())
-            .service(submit)
+        #[cfg(feature = "batch-submitter")]
+        {
+            App::new()
+                .data(store_state.clone())
+                .data(key_state.clone())
+                .service(submit)
+        }
+        #[cfg(not(feature = "batch-submitter"))]
+        {
+            App::new()
+                .data(store_state.clone())
+                .data(key_state.clone())
+        }
     })
     .bind(bind)
     .map_err(|err| InternalError::from_source(Box::new(err)))?

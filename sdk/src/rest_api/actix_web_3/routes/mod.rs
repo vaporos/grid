@@ -30,6 +30,7 @@ mod records;
 mod roles;
 #[cfg(feature = "schema")]
 mod schemas;
+#[cfg(feature = "batch-submitter")]
 mod submit;
 
 #[cfg(feature = "pike")]
@@ -50,4 +51,5 @@ pub use records::*;
 pub use roles::*;
 #[cfg(feature = "schema")]
 pub use schemas::*;
+#[cfg(feature = "batch-submitter")]
 pub use submit::*;

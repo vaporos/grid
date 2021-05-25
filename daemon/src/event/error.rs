@@ -18,11 +18,17 @@
 use std::error::Error;
 use std::fmt;
 
-use grid_sdk::{
-    commits::store::CommitStoreError, locations::store::LocationStoreError,
-    pike::store::PikeStoreError, products::store::ProductStoreError,
-    schemas::store::SchemaStoreError, track_and_trace::store::TrackAndTraceStoreError,
-};
+use grid_sdk::commits::store::CommitStoreError;
+#[cfg(feature = "location")]
+use grid_sdk::locations::store::LocationStoreError;
+#[cfg(feature = "pike")]
+use grid_sdk::pike::store::PikeStoreError;
+#[cfg(feature = "product")]
+use grid_sdk::products::store::ProductStoreError;
+#[cfg(feature = "schema")]
+use grid_sdk::schemas::store::SchemaStoreError;
+#[cfg(feature = "track-and-trace")]
+use grid_sdk::track_and_trace::store::TrackAndTraceStoreError;
 
 #[derive(Debug)]
 pub struct EventProcessorError(pub String);
@@ -52,30 +58,35 @@ impl From<CommitStoreError> for EventError {
     }
 }
 
+#[cfg(feature = "location")]
 impl From<LocationStoreError> for EventError {
     fn from(err: LocationStoreError) -> Self {
         EventError(format!("{}", err))
     }
 }
 
+#[cfg(feature = "pike")]
 impl From<PikeStoreError> for EventError {
     fn from(err: PikeStoreError) -> Self {
         EventError(format!("{}", err))
     }
 }
 
+#[cfg(feature = "product")]
 impl From<ProductStoreError> for EventError {
     fn from(err: ProductStoreError) -> Self {
         EventError(format!("{}", err))
     }
 }
 
+#[cfg(feature = "schema")]
 impl From<SchemaStoreError> for EventError {
     fn from(err: SchemaStoreError) -> Self {
         EventError(format!("{}", err))
     }
 }
 
+#[cfg(feature = "track-and-trace")]
 impl From<TrackAndTraceStoreError> for EventError {
     fn from(err: TrackAndTraceStoreError) -> Self {
         EventError(format!("{}", err))

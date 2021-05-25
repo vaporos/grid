@@ -15,9 +15,54 @@
  * -----------------------------------------------------------------------------
  */
 
-use grid_sdk::rest_api::actix_web_3::{Backend, Endpoint};
-
 use crate::error::ConfigurationError;
+
+#[derive(Clone, Debug)]
+pub enum Backend {
+    Splinter,
+    Sawtooth,
+}
+
+#[derive(Clone, Debug)]
+pub struct Endpoint {
+    pub backend: Backend,
+    pub url: String,
+}
+
+impl Endpoint {
+    pub fn url(&self) -> String {
+        self.url.clone()
+    }
+
+    pub fn backend(&self) -> &Backend {
+        &self.backend
+    }
+}
+
+impl From<&str> for Endpoint {
+    fn from(s: &str) -> Self {
+        let s = s.to_lowercase();
+
+        if s.starts_with("splinter:") {
+            let url = s.replace("splinter:", "");
+            Endpoint {
+                backend: Backend::Splinter,
+                url,
+            }
+        } else if s.starts_with("sawtooth:") {
+            let url = s.replace("sawtooth:", "");
+            Endpoint {
+                backend: Backend::Sawtooth,
+                url,
+            }
+        } else {
+            Endpoint {
+                backend: Backend::Sawtooth,
+                url: s,
+            }
+        }
+    }
+}
 
 #[derive(Debug)]
 pub struct GridConfig {
